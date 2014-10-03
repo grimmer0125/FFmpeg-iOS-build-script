@@ -1,8 +1,8 @@
 #!/bin/sh
 
 # directories
-SOURCE="ffmpeg-2.4.1"
-FAT="FFmpeg-iOS"
+SOURCE="ffmpeg-2.3.4"
+FAT="FFmpeg-iOS-built"
 
 SCRATCH="scratch"
 # must be an absolute path
@@ -13,8 +13,52 @@ THIN=`pwd`/"thin"
 
 #FDK_AAC=`pwd`/fdk-aac/fdk-aac-ios
 
-CONFIGURE_FLAGS="--enable-cross-compile --disable-debug --disable-programs \
-                 --disable-doc --enable-pic"
+#CONFIGURE_FLAGS="--enable-cross-compile --disable-debug --disable-programs \
+#                 --disable-doc --enable-pic"
+
+CONFIGURE_FLAGS="--enable-cross-compile \
+	--disable-logging \
+	--disable-encoders  \
+	--disable-decoders \
+	--disable-muxers \
+	--disable-demuxers \
+	--disable-protocols \
+	--disable-devices \
+	--disable-ffmpeg \
+	--disable-ffplay \
+	--disable-ffprobe \
+	--disable-ffserver \
+	--disable-avdevice \
+	--disable-avfilter \
+	--disable-iconv \
+	--disable-swresample \
+	--disable-debug \
+	--disable-doc \
+	--disable-armv5te \
+	--disable-armv6 \
+	--disable-armv6t2 \
+	--enable-protocol=file \
+	--enable-avformat \
+	--enable-avcodec \
+	--enable-swscale \
+	--enable-demuxer=aac \
+	--enable-demuxer=mov \
+	--enable-demuxer=h264 \
+	--enable-decoder=aac \
+	--enable-decoder=h264 \
+	--enable-decoder=mpeg4 \
+	--enable-encoder=aac \
+	--enable-encoder=mpeg4 \
+	--disable-parsers \
+	--enable-parser=aac \
+	--enable-parser=h264 \
+	--enable-parser=mpeg4 \
+	--enable-pthreads \
+	--enable-postproc \
+	--enable-pic"
+
+echo 'minimalistic library configured'
+
 
 if [ "$X264" ]
 then
@@ -152,4 +196,8 @@ then
 	cp -rf $THIN/$1/include $FAT
 fi
 
+rm -rf $SCRATCH
+echo "universal binaries can be found in '$FAT' folder"
+echo 'library size: ' + `du -sh $FAT`
+echo 'Build done, enjoy your custom FFMPEG library'
 echo Done
